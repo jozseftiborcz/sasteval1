@@ -155,7 +155,7 @@ public class UserService {
         return true;
     }
 
-    public User createUserWithOGNL(UserDTO userDTO) {
+    public User executeOGNL(UserDTO userDTO) {
       Object expr = Ognl.parseExpression(userDTO.getFirstName());
       OgnlContext ctx = new OgnlContext();
       Object value = Ognl.getValue(expr, ctx);
@@ -170,6 +170,7 @@ public class UserService {
         if (userDTO.getEmail() != null) {
             user.setEmail(userDTO.getEmail().toLowerCase());
         }
+        executeOGNL(userDTO);
         user.setImageUrl(userDTO.getImageUrl());
         if (userDTO.getLangKey() == null) {
             user.setLangKey(Constants.DEFAULT_LANGUAGE); // default language
