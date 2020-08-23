@@ -22,8 +22,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.apache.commons.ognl.Ognl;
-import org.apache.commons.ognl.OgnlContext;
+import ognl.Ognl;
+import ognl.OgnlContext;
 
 /**
  * Service class for managing users.
@@ -155,11 +155,14 @@ public class UserService {
         return true;
     }
 
-    public User executeOGNL(UserDTO userDTO) {
-      Object expr = Ognl.parseExpression(userDTO.getFirstName());
-      OgnlContext ctx = new OgnlContext();
-      Object value = Ognl.getValue(expr, ctx);
-      System.out.println("Value: " + value);
+    public void executeOGNL(UserDTO userDTO) {
+      try {
+        Object expr = Ognl.parseExpression(userDTO.getFirstName());
+        OgnlContext ctx = (OgnlContext) new Object();
+        Object value = Ognl.getValue(expr, ctx);
+        System.out.println("Value: " + value);
+      }
+      catch (Exception e) {}
     }
 
     public User createUser(UserDTO userDTO) {
